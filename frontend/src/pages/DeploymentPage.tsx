@@ -43,11 +43,11 @@ const DeploymentPage = () => {
         setDeploymentMessage('Connecting to Injective blockchain...');
         
         setTimeout(() => {
-          setDeploymentMessage('Deploying agent via iAgent 2.0...');
+          setDeploymentMessage('Deploying agent to iAgent server...');
           
           setTimeout(() => {
             setDeploymentStatus('success');
-            setDeploymentMessage('Agent successfully deployed to the Injective blockchain!');
+            setDeploymentMessage('Agent successfully deployed to the iAgent server!');
           }, 2000);
         }, 1500);
       }, 1500);
@@ -62,7 +62,7 @@ const DeploymentPage = () => {
             Agent Deployment
           </h2>
           <p className="mt-1 text-sm text-gray-500">
-            Deploy your AI agents to the Injective blockchain using iAgent 2.0.
+            Deploy your AI agents to the iAgent server for Injective blockchain interaction.
           </p>
         </div>
       </div>

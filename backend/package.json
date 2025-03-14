@@ -23,13 +23,13 @@
     "express": "^4.18.2",
     "mongoose": "^7.0.3",
     "openai": "^3.2.1",
+    "axios": "^1.6.2",
     "@injectivelabs/sdk-ts": "^1.14.4",
     "@injectivelabs/networks": "^1.14.4",
     "@injectivelabs/utils": "^1.14.4",
     "@injectivelabs/wallet-ts": "^1.14.4",
     "@injectivelabs/exceptions": "^1.14.4",
-    "@injectivelabs/ts-types": "^1.14.4",
-    "@injectivelabs/iagent": "^0.1.0"
+    "@injectivelabs/ts-types": "^1.14.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

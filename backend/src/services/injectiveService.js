@@ -10,7 +10,7 @@ const {
 } = require('@injectivelabs/sdk-ts');
 const { Network, getNetworkEndpoints } = require('@injectivelabs/networks');
 const { BigNumberInBase } = require('@injectivelabs/utils');
-const { IAgentClient } = require('@injectivelabs/iagent');
+const axios = require('axios');
 
 class InjectiveService {
   constructor() {
@@ -21,12 +21,8 @@ class InjectiveService {
     this.chainGrpcWasmApi = new ChainGrpcWasmApi(this.endpoints.grpc);
     this.txClient = new TxGrpcClient(this.endpoints.grpc);
     
-    // Initialize iAgent client
-    this.iAgentClient = new IAgentClient({
-      apiKey: process.env.IAGENT_API_KEY,
-      endpoint: process.env.IAGENT_ENDPOINT,
-      network: this.network
-    });
+    // Initialize iAgent API client
+    this.iAgentApiUrl = process.env.IAGENT_API_URL || 'http://localhost:5000';
   }
 
   /**
@@ -219,9 +215,9 @@ class InjectiveService {
       // Parse the configuration
       const parsedConfig = JSON.parse(configuration);
       
-      // Deploy the agent to iAgent
-      const deploymentResult = await this.iAgentClient.deployAgent({
-        agentId: `axiom-${agentId}`,
+      // Deploy the agent to iAgent using the REST API
+      const response = await axios.post(`${this.iAgentApiUrl}/agents`, {
+        agent_id: `axiom-${agentId}`,
         name: parsedConfig.name,
         description: parsedConfig.description,
         prompt: parsedConfig.prompt,
@@ -231,10 +227,13 @@ class InjectiveService {
         metadata: {
           source: 'axiom-platform',
           registryId: agentId
-        }
+        },
+        address: parsedConfig.address,
+        private_key: parsedConfig.privateKey,
+        network: this.network === Network.MainnetK8s ? 'mainnet' : 'testnet'
       });
       
-      return deploymentResult;
+      return response.data;
     } catch (error) {
       console.error('Error deploying agent to iAgent:', error);
       throw new Error(`Failed to deploy agent to iAgent: ${error.message}`);
@@ -248,8 +247,8 @@ class InjectiveService {
    */
   async getAgentFromIAgent(agentId) {
     try {
-      const agent = await this.iAgentClient.getAgent(`axiom-${agentId}`);
-      return agent;
+      const response = await axios.get(`${this.iAgentApiUrl}/agents/axiom-${agentId}`);
+      return response.data;
     } catch (error) {
       console.error('Error getting agent from iAgent:', error);
       throw new Error(`Failed to get agent from iAgent: ${error.message}`);
@@ -263,8 +262,8 @@ class InjectiveService {
    */
   async deleteAgentFromIAgent(agentId) {
     try {
-      const result = await this.iAgentClient.deleteAgent(`axiom-${agentId}`);
-      return result;
+      const response = await axios.delete(`${this.iAgentApiUrl}/agents/axiom-${agentId}`);
+      return response.data;
     } catch (error) {
       console.error('Error deleting agent from iAgent:', error);
       throw new Error(`Failed to delete agent from iAgent: ${error.message}`);
@@ -280,13 +279,17 @@ class InjectiveService {
    */
   async chatWithAgent(agentId, message, sessionId = null) {
     try {
-      const response = await this.iAgentClient.chat({
-        agentId: `axiom-${agentId}`,
-        message,
-        sessionId
-      });
+      const payload = {
+        agent_id: `axiom-${agentId}`,
+        message
+      };
       
-      return response;
+      if (sessionId) {
+        payload.session_id = sessionId;
+      }
+      
+      const response = await axios.post(`${this.iAgentApiUrl}/chat`, payload);
+      return response.data;
     } catch (error) {
       console.error('Error chatting with agent:', error);
       throw new Error(`Failed to chat with agent: ${error.message}`);
