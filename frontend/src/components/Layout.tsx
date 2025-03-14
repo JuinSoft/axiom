@@ -1,55 +1,8 @@
 import { Outlet, Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useWallet } from '../context/WalletContext';
 
 const Layout = () => {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [isConnecting, setIsConnecting] = useState(false);
-
-  useEffect(() => {
-    // Check if wallet was previously connected
-    const savedAddress = localStorage.getItem('walletAddress');
-    if (savedAddress) {
-      setWalletAddress(savedAddress);
-    }
-  }, []);
-
-  const connectWallet = async () => {
-    try {
-      setIsConnecting(true);
-      
-      // Check if Keplr is installed
-      if (!window.keplr) {
-        alert("Please install Keplr extension");
-        return;
-      }
-
-      // Request connection to Injective chain
-      await window.keplr.enable("injective-1"); // mainnet
-      
-      // Get the offlineSigner
-      const offlineSigner = window.keplr.getOfflineSigner("injective-1");
-      
-      // Get accounts
-      const accounts = await offlineSigner.getAccounts();
-      const address = accounts[0].address;
-      
-      // Save address
-      setWalletAddress(address);
-      localStorage.setItem('walletAddress', address);
-      
-      console.log("Connected to wallet:", address);
-    } catch (error) {
-      console.error("Error connecting to wallet:", error);
-      alert("Failed to connect wallet. Please try again.");
-    } finally {
-      setIsConnecting(false);
-    }
-  };
-
-  const disconnectWallet = () => {
-    setWalletAddress(null);
-    localStorage.removeItem('walletAddress');
-  };
+  const { walletAddress, isConnecting, connectWallet, disconnectWallet } = useWallet();
 
   return (
     <div className="min-h-screen flex flex-col">

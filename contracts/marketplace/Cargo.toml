@@ -20,6 +20,12 @@ cw2 = "0.16.0"
 schemars = "0.8.10"
 serde = { version = "1.0.145", default-features = false, features = ["derive"] }
 thiserror = "1.0.31"
+# Add Injective specific dependencies
+injective-cosmwasm = "0.2.2"
+injective-std = "0.1.4"
+injective-math = "0.1.12"
+# Add dependency to agent-registry contract
+axiom-agent-registry = { path = "../agent-registry", version = "0.1.0" }
 
 [dev-dependencies]
 cosmwasm-schema = "1.1.0"
