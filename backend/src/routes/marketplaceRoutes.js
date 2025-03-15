@@ -2,22 +2,16 @@ const express = require('express');
 const router = express.Router();
 const marketplaceController = require('../controllers/marketplaceController');
 
-// GET /api/marketplace - List all agents in the marketplace
-router.get('/', marketplaceController.listMarketplaceAgents);
+// Get all agents in the marketplace
+router.get('/', marketplaceController.getAgents);
 
-// GET /api/marketplace/:id - Get a single marketplace agent by ID
-router.get('/:id', marketplaceController.getMarketplaceAgent);
+// Get agent details by ID
+router.get('/:id', marketplaceController.getAgentDetails);
 
-// POST /api/marketplace/list - List an agent in the marketplace
-router.post('/list', marketplaceController.listAgentInMarketplace);
+// Purchase an agent
+router.post('/:id/purchase', marketplaceController.purchaseAgent);
 
-// DELETE /api/marketplace/:agentId - Remove an agent from the marketplace
-router.delete('/:agentId', marketplaceController.removeAgentFromMarketplace);
-
-// POST /api/marketplace/purchase - Purchase an agent from the marketplace
-router.post('/purchase', marketplaceController.purchaseAgent);
-
-// POST /api/marketplace/rate - Rate an agent in the marketplace
-router.post('/rate', marketplaceController.rateAgent);
+// List an agent in the marketplace
+router.post('/', marketplaceController.listAgent);
 
 module.exports = router; 

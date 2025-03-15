@@ -13,16 +13,27 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chakra-ui/react": "^3.13.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@injectivelabs/networks": "^1.14.41",
+    "@injectivelabs/sdk-ts": "^1.14.41",
+    "@injectivelabs/utils": "^1.14.41",
+    "@injectivelabs/wallet-ts": "^1.14.41",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
+    "axios": "^1.8.3",
+    "framer-motion": "^12.5.0",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
+    "react-toastify": "^11.0.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.2",
-    "vite": "^6.2.2"
+    "vite": "^6.2.2",
+    "zustand": "^5.0.3"
   }
 }

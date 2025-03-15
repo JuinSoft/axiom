@@ -5,9 +5,9 @@ const connectDB = require('./config/database');
 
 // Import routes
 const agentRoutes = require('./routes/agentRoutes');
-const aiRoutes = require('./routes/aiRoutes');
-const deploymentRoutes = require('./routes/deploymentRoutes');
 const marketplaceRoutes = require('./routes/marketplaceRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const walletRoutes = require('./routes/walletRoutes');
 
 // Create Express app
 const app = express();
@@ -22,9 +22,9 @@ connectDB();
 
 // Routes
 app.use('/api/agents', agentRoutes);
-app.use('/api/ai', aiRoutes);
-app.use('/api/deployment', deploymentRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/wallet', walletRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

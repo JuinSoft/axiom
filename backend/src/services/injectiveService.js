@@ -3,12 +3,19 @@ const {
   MsgExecuteContractCompat,
   PrivateKey,
   Wallet,
-  MsgBroadcasterWithPk
+  MsgBroadcasterWithPk,
+  ChainGrpcBankApi,
+  ChainGrpcAuthApi,
+  ChainGrpcTxApi
 } = require('@injectivelabs/sdk-ts');
-const { createTransaction, TxGrpcClient, TxClient } = require('@injectivelabs/sdk-ts/dist/core/transaction');
+const { TxGrpcClient } = require('@injectivelabs/sdk-ts/dist/client/chain/grpc');
 const { Network, getNetworkEndpoints } = require('@injectivelabs/networks');
-const { BigNumberInBase, DEFAULT_STD_FEE } = require('@injectivelabs/utils');
+const { BigNumberInBase, DEFAULT_STD_FEE, BigNumberInWei } = require('@injectivelabs/utils');
 const axios = require('axios');
+
+// Contract addresses
+const AGENT_REGISTRY_CONTRACT = process.env.AGENT_REGISTRY_CONTRACT_ADDRESS || 'inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f'; // Replace with actual contract address
+const MARKETPLACE_CONTRACT = process.env.MARKETPLACE_CONTRACT_ADDRESS || 'inj1f6lmn9hcknfv2wkzh8xd5ws4wkk02npyxpnsmr'; // Replace with actual contract address
 
 class InjectiveService {
   constructor() {
@@ -20,7 +27,16 @@ class InjectiveService {
     this.txClient = new TxGrpcClient(this.endpoints.grpc);
     
     // Initialize iAgent API client
-    this.iAgentApiUrl = process.env.IAGENT_API_URL || 'http://localhost:5000';
+    this.iAgentApiUrl = process.env.IAGENT_API_URL || 'https://iagent.injective.network/api';
+    
+    // Initialize bank API client for balance queries
+    this.bankClient = new ChainGrpcBankApi(this.endpoints.grpc);
+    
+    // Initialize auth API client for account queries
+    this.authClient = new ChainGrpcAuthApi(this.endpoints.grpc);
+    
+    // Initialize tx API client for transaction queries
+    this.txGrpcClient = new ChainGrpcTxApi(this.endpoints.grpc);
   }
 
   /**
@@ -112,6 +128,43 @@ class InjectiveService {
   }
 
   /**
+   * Get all agents from the registry
+   * @returns {Promise<any>} List of agents
+   */
+  async getAllAgents() {
+    try {
+      const query = {
+        get_all_agents: {}
+      };
+      
+      return await this.queryContract(AGENT_REGISTRY_CONTRACT, query);
+    } catch (error) {
+      console.error('Error getting all agents:', error);
+      throw new Error(`Failed to get all agents: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get an agent by ID
+   * @param {string} agentId - The agent ID
+   * @returns {Promise<any>} Agent details
+   */
+  async getAgentById(agentId) {
+    try {
+      const query = {
+        get_agent: {
+          agent_id: agentId
+        }
+      };
+      
+      return await this.queryContract(AGENT_REGISTRY_CONTRACT, query);
+    } catch (error) {
+      console.error('Error getting agent by ID:', error);
+      throw new Error(`Failed to get agent by ID: ${error.message}`);
+    }
+  }
+
+  /**
    * Register an agent in the registry
    * @param {string} mnemonic - The mnemonic phrase
    * @param {string} name - Agent name
@@ -120,8 +173,6 @@ class InjectiveService {
    * @returns {Promise<any>} Transaction result
    */
   async registerAgent(mnemonic, name, description, configuration) {
-    const contractAddress = process.env.AGENT_REGISTRY_CONTRACT_ADDRESS;
-    
     const msg = {
       register_agent: {
         name,
@@ -130,25 +181,58 @@ class InjectiveService {
       }
     };
     
-    return this.executeContract(mnemonic, contractAddress, msg);
+    return this.executeContract(mnemonic, AGENT_REGISTRY_CONTRACT, msg);
+  }
+
+  /**
+   * Get all marketplace listings
+   * @returns {Promise<any>} List of marketplace listings
+   */
+  async getMarketplaceListings() {
+    try {
+      const query = {
+        get_all_listings: {}
+      };
+      
+      return await this.queryContract(MARKETPLACE_CONTRACT, query);
+    } catch (error) {
+      console.error('Error getting marketplace listings:', error);
+      throw new Error(`Failed to get marketplace listings: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get marketplace listing by ID
+   * @param {string} listingId - The listing ID
+   * @returns {Promise<any>} Listing details
+   */
+  async getMarketplaceListingById(listingId) {
+    try {
+      const query = {
+        get_listing: {
+          listing_id: listingId
+        }
+      };
+      
+      return await this.queryContract(MARKETPLACE_CONTRACT, query);
+    } catch (error) {
+      console.error('Error getting marketplace listing by ID:', error);
+      throw new Error(`Failed to get marketplace listing by ID: ${error.message}`);
+    }
   }
 
   /**
    * List an agent in the marketplace
    * @param {string} mnemonic - The mnemonic phrase
-   * @param {string} name - Agent name
-   * @param {string} description - Agent description
+   * @param {string} agentId - Agent ID
    * @param {string} price - Agent price in INJ
    * @param {string} category - Agent category
    * @returns {Promise<any>} Transaction result
    */
-  async listAgentInMarketplace(mnemonic, name, description, price, category) {
-    const contractAddress = process.env.MARKETPLACE_CONTRACT_ADDRESS;
-    
+  async listAgentInMarketplace(mnemonic, agentId, price, category) {
     const msg = {
       list_agent: {
-        name,
-        description,
+        agent_id: agentId,
         price: {
           denom: 'inj',
           amount: price
@@ -157,22 +241,20 @@ class InjectiveService {
       }
     };
     
-    return this.executeContract(mnemonic, contractAddress, msg);
+    return this.executeContract(mnemonic, MARKETPLACE_CONTRACT, msg);
   }
 
   /**
    * Purchase an agent from the marketplace
    * @param {string} mnemonic - The mnemonic phrase
-   * @param {string} agentId - Agent ID
+   * @param {string} listingId - Listing ID
    * @param {string} price - Agent price in INJ
    * @returns {Promise<any>} Transaction result
    */
-  async purchaseAgent(mnemonic, agentId, price) {
-    const contractAddress = process.env.MARKETPLACE_CONTRACT_ADDRESS;
-    
+  async purchaseAgent(mnemonic, listingId, price) {
     const msg = {
       purchase_agent: {
-        agent_id: agentId
+        listing_id: listingId
       }
     };
     
@@ -185,7 +267,7 @@ class InjectiveService {
       ]
     };
     
-    return this.executeContract(mnemonic, contractAddress, msg, options);
+    return this.executeContract(mnemonic, MARKETPLACE_CONTRACT, msg, options);
   }
 
   /**
@@ -196,25 +278,21 @@ class InjectiveService {
    */
   async deployAgentToIAgent(agentId, configuration) {
     try {
-      // Parse the configuration
-      const parsedConfig = JSON.parse(configuration);
+      // Parse the configuration if it's a string
+      const parsedConfig = typeof configuration === 'string' 
+        ? JSON.parse(configuration) 
+        : configuration;
       
-      // Since iAgent doesn't have a /agents endpoint, we'll use the /chat endpoint
-      // to initialize the agent with a special command
-      const response = await axios.post(`${this.iAgentApiUrl}/chat`, {
-        agent_id: `axiom-${agentId}`,
-        agent_key: parsedConfig.privateKey,
-        environment: this.network === Network.MainnetK8s ? 'mainnet' : 'testnet',
-        message: `Initialize agent with name: ${parsedConfig.name}, description: ${parsedConfig.description}`
-      });
-      
-      return {
-        success: true,
-        agent_id: `axiom-${agentId}`,
+      // Deploy to iAgent
+      const response = await axios.post(`${this.iAgentApiUrl}/agents/deploy`, {
+        agent_id: agentId,
         name: parsedConfig.name,
         description: parsedConfig.description,
-        response: response.data
-      };
+        capabilities: parsedConfig.capabilities || [],
+        parameters: parsedConfig.parameters || {}
+      });
+      
+      return response.data;
     } catch (error) {
       console.error('Error deploying agent to iAgent:', error);
       throw new Error(`Failed to deploy agent to iAgent: ${error.message}`);
@@ -228,16 +306,8 @@ class InjectiveService {
    */
   async getAgentFromIAgent(agentId) {
     try {
-      // Since iAgent doesn't have a /agents/{agent_id} endpoint, we'll use the /history endpoint
-      // to get information about the agent's conversations
-      const response = await axios.get(`${this.iAgentApiUrl}/history`, {
-        params: { session_id: `axiom-${agentId}` }
-      });
-      
-      return {
-        agent_id: `axiom-${agentId}`,
-        history: response.data.history || []
-      };
+      const response = await axios.get(`${this.iAgentApiUrl}/agents/${agentId}`);
+      return response.data;
     } catch (error) {
       console.error('Error getting agent from iAgent:', error);
       throw new Error(`Failed to get agent from iAgent: ${error.message}`);
@@ -251,17 +321,8 @@ class InjectiveService {
    */
   async deleteAgentFromIAgent(agentId) {
     try {
-      // Since iAgent doesn't have a /agents/{agent_id} endpoint for deletion,
-      // we'll use the /clear endpoint to clear the agent's conversation history
-      const response = await axios.post(`${this.iAgentApiUrl}/clear`, null, {
-        params: { session_id: `axiom-${agentId}` }
-      });
-      
-      return {
-        success: true,
-        message: 'Agent conversation history cleared',
-        response: response.data
-      };
+      const response = await axios.delete(`${this.iAgentApiUrl}/agents/${agentId}`);
+      return response.data;
     } catch (error) {
       console.error('Error deleting agent from iAgent:', error);
       throw new Error(`Failed to delete agent from iAgent: ${error.message}`);
@@ -278,7 +339,7 @@ class InjectiveService {
   async chatWithAgent(agentId, message, sessionId = null) {
     try {
       const payload = {
-        agent_id: `axiom-${agentId}`,
+        agent_id: agentId,
         message
       };
       
@@ -293,6 +354,171 @@ class InjectiveService {
       throw new Error(`Failed to chat with agent: ${error.message}`);
     }
   }
+
+  /**
+   * Get agent analytics
+   * @param {string} agentId - The agent ID
+   * @returns {Promise<any>} Analytics data
+   */
+  async getAgentAnalytics(agentId) {
+    try {
+      const response = await axios.get(`${this.iAgentApiUrl}/agents/${agentId}/analytics`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting agent analytics:', error);
+      throw new Error(`Failed to get agent analytics: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get wallet balance
+   * @param {string} address - Wallet address
+   * @returns {Promise<Object>} - Wallet balance
+   */
+  async getBalance(address) {
+    try {
+      // Get all balances for the address
+      const balanceResponse = await this.bankClient.fetchBalances(address);
+      
+      // Extract and format the balances
+      let inj = 0;
+      let usdt = 0;
+      let usdc = 0;
+      
+      if (balanceResponse && balanceResponse.balances) {
+        for (const balance of balanceResponse.balances) {
+          if (balance.denom === 'inj') {
+            // Convert from wei (10^18) to INJ
+            inj = new BigNumberInWei(balance.amount).toBase().toNumber();
+          } else if (balance.denom.includes('peggy') && balance.denom.toLowerCase().includes('usdt')) {
+            // Convert from smallest unit (10^6) to USDT
+            usdt = new BigNumberInBase(balance.amount).div(1e6).toNumber();
+          } else if (balance.denom.includes('peggy') && balance.denom.toLowerCase().includes('usdc')) {
+            // Convert from smallest unit (10^6) to USDC
+            usdc = new BigNumberInBase(balance.amount).div(1e6).toNumber();
+          }
+        }
+      }
+      
+      return { inj, usdt, usdc };
+    } catch (error) {
+      console.error('Error fetching wallet balance:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get transaction history
+   * @param {string} address - Wallet address
+   * @returns {Promise<Array>} - Transaction history
+   */
+  async getTransactions(address) {
+    try {
+      // Get sent transactions
+      const sentTxsResponse = await this.txGrpcClient.fetchTxs({
+        sender: address,
+        limit: 10
+      });
+      
+      // Get received transactions
+      const receivedTxsResponse = await this.txGrpcClient.fetchTxs({
+        receiver: address,
+        limit: 10
+      });
+      
+      // Combine and format transactions
+      const transactions = [];
+      
+      // Process sent transactions
+      if (sentTxsResponse && sentTxsResponse.txs) {
+        for (const tx of sentTxsResponse.txs) {
+          const formattedTx = this._formatTransaction(tx, 'send', address);
+          if (formattedTx) {
+            transactions.push(formattedTx);
+          }
+        }
+      }
+      
+      // Process received transactions
+      if (receivedTxsResponse && receivedTxsResponse.txs) {
+        for (const tx of receivedTxsResponse.txs) {
+          const formattedTx = this._formatTransaction(tx, 'receive', address);
+          if (formattedTx) {
+            transactions.push(formattedTx);
+          }
+        }
+      }
+      
+      // Sort transactions by timestamp (newest first)
+      transactions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      return transactions;
+    } catch (error) {
+      console.error('Error fetching transaction history:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Format a transaction
+   * @private
+   * @param {Object} tx - Transaction object
+   * @param {string} defaultType - Default transaction type
+   * @param {string} address - Wallet address
+   * @returns {Object} - Formatted transaction
+   */
+  _formatTransaction(tx, defaultType, address) {
+    try {
+      // Extract basic transaction info
+      const hash = tx.txHash;
+      const timestamp = new Date(tx.timestamp).toISOString();
+      const fee = tx.fee ? new BigNumberInWei(tx.fee.amount[0].amount).toBase().toNumber() : 0;
+      const status = tx.code === 0 ? 'completed' : 'failed';
+      
+      // Determine transaction type and amount
+      let type = defaultType;
+      let amount = 0;
+      let from = '';
+      let to = '';
+      
+      // Check if it's a contract interaction
+      if (tx.messages && tx.messages.length > 0) {
+        const msg = tx.messages[0];
+        
+        if (msg['@type'].includes('MsgExecuteContract')) {
+          type = 'contract';
+          from = msg.sender;
+          to = msg.contract;
+          
+          // Try to extract amount from contract execution
+          if (msg.funds && msg.funds.length > 0) {
+            amount = new BigNumberInWei(msg.funds[0].amount).toBase().toNumber();
+          }
+        } else if (msg['@type'].includes('MsgSend')) {
+          from = msg.fromAddress;
+          to = msg.toAddress;
+          
+          if (msg.amount && msg.amount.length > 0) {
+            amount = new BigNumberInWei(msg.amount[0].amount).toBase().toNumber();
+          }
+        }
+      }
+      
+      return {
+        hash,
+        type,
+        amount,
+        fee,
+        status,
+        timestamp,
+        from,
+        to
+      };
+    } catch (error) {
+      console.error('Error formatting transaction:', error);
+      return null;
+    }
+  }
 }
 
-module.exports = new InjectiveService(); 
+module.exports = InjectiveService; 
