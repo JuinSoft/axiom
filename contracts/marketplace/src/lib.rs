@@ -320,6 +320,7 @@ pub mod state {
     use cw_storage_plus::{Item, Map};
     use serde::{Serialize, Deserialize};
     use schemars::JsonSchema;
+    use crate::msg::AgentInfo;
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
     pub struct Config {
