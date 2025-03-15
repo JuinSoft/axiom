@@ -1,15 +1,13 @@
 const { 
   ChainGrpcWasmApi, 
-  MsgExecuteContract,
+  MsgExecuteContractCompat,
   PrivateKey,
-  TxGrpcClient,
-  TxClient,
-  BaseAccount,
-  createTransaction,
-  Wallet
+  Wallet,
+  MsgBroadcasterWithPk
 } = require('@injectivelabs/sdk-ts');
+const { createTransaction, TxGrpcClient, TxClient } = require('@injectivelabs/sdk-ts/dist/core/transaction');
 const { Network, getNetworkEndpoints } = require('@injectivelabs/networks');
-const { BigNumberInBase } = require('@injectivelabs/utils');
+const { BigNumberInBase, DEFAULT_STD_FEE } = require('@injectivelabs/utils');
 const axios = require('axios');
 
 class InjectiveService {
@@ -84,43 +82,29 @@ class InjectiveService {
   async executeContract(mnemonic, contractAddress, msg, options = {}) {
     try {
       const wallet = this.createWalletFromMnemonic(mnemonic);
-      const chainId = this.getChainId();
-      
-      // Create a wallet instance
-      const walletInstance = new Wallet(wallet.privateKey);
       
       // Create the message
-      const executeMsg = MsgExecuteContract.fromJSON({
+      const executeMsg = MsgExecuteContractCompat.fromJSON({
         sender: wallet.address,
         contractAddress,
         msg,
         funds: options.funds || []
       });
       
-      // Get account details
-      const account = await walletInstance.getAccount();
-      
-      // Get gas price from environment or use default
-      const gasPrice = process.env.INJECTIVE_GAS_PRICE || '500000000';
-      
-      // Create transaction
-      const tx = await createTransaction({
-        message: executeMsg,
+      // Use MsgBroadcasterWithPk for simplicity
+      const txHash = await new MsgBroadcasterWithPk({
+        privateKey: wallet.privateKey.toHex(),
+        network: this.network
+      }).broadcast({
+        msgs: executeMsg,
         memo: options.memo || '',
-        fee: options.fee || {
-          amount: [{ denom: 'inj', amount: new BigNumberInBase(gasPrice).times(500000).toString() }],
-          gas: '500000'
-        },
-        chainId,
-        privateKey: wallet.privateKey,
-        sequence: account.sequence,
-        accountNumber: account.accountNumber
+        fee: options.fee || DEFAULT_STD_FEE
       });
       
-      // Broadcast transaction
-      const txResponse = await this.txClient.broadcast(tx);
-      
-      return txResponse;
+      return {
+        txHash,
+        success: true
+      };
     } catch (error) {
       console.error('Error executing contract:', error);
       throw new Error(`Failed to execute contract: ${error.message}`);
@@ -215,25 +199,22 @@ class InjectiveService {
       // Parse the configuration
       const parsedConfig = JSON.parse(configuration);
       
-      // Deploy the agent to iAgent using the REST API
-      const response = await axios.post(`${this.iAgentApiUrl}/agents`, {
+      // Since iAgent doesn't have a /agents endpoint, we'll use the /chat endpoint
+      // to initialize the agent with a special command
+      const response = await axios.post(`${this.iAgentApiUrl}/chat`, {
+        agent_id: `axiom-${agentId}`,
+        agent_key: parsedConfig.privateKey,
+        environment: this.network === Network.MainnetK8s ? 'mainnet' : 'testnet',
+        message: `Initialize agent with name: ${parsedConfig.name}, description: ${parsedConfig.description}`
+      });
+      
+      return {
+        success: true,
         agent_id: `axiom-${agentId}`,
         name: parsedConfig.name,
         description: parsedConfig.description,
-        prompt: parsedConfig.prompt,
-        model: parsedConfig.model || 'gpt-4',
-        tools: parsedConfig.tools || [],
-        memory: parsedConfig.memory || false,
-        metadata: {
-          source: 'axiom-platform',
-          registryId: agentId
-        },
-        address: parsedConfig.address,
-        private_key: parsedConfig.privateKey,
-        network: this.network === Network.MainnetK8s ? 'mainnet' : 'testnet'
-      });
-      
-      return response.data;
+        response: response.data
+      };
     } catch (error) {
       console.error('Error deploying agent to iAgent:', error);
       throw new Error(`Failed to deploy agent to iAgent: ${error.message}`);
@@ -247,8 +228,16 @@ class InjectiveService {
    */
   async getAgentFromIAgent(agentId) {
     try {
-      const response = await axios.get(`${this.iAgentApiUrl}/agents/axiom-${agentId}`);
-      return response.data;
+      // Since iAgent doesn't have a /agents/{agent_id} endpoint, we'll use the /history endpoint
+      // to get information about the agent's conversations
+      const response = await axios.get(`${this.iAgentApiUrl}/history`, {
+        params: { session_id: `axiom-${agentId}` }
+      });
+      
+      return {
+        agent_id: `axiom-${agentId}`,
+        history: response.data.history || []
+      };
     } catch (error) {
       console.error('Error getting agent from iAgent:', error);
       throw new Error(`Failed to get agent from iAgent: ${error.message}`);
@@ -262,8 +251,17 @@ class InjectiveService {
    */
   async deleteAgentFromIAgent(agentId) {
     try {
-      const response = await axios.delete(`${this.iAgentApiUrl}/agents/axiom-${agentId}`);
-      return response.data;
+      // Since iAgent doesn't have a /agents/{agent_id} endpoint for deletion,
+      // we'll use the /clear endpoint to clear the agent's conversation history
+      const response = await axios.post(`${this.iAgentApiUrl}/clear`, null, {
+        params: { session_id: `axiom-${agentId}` }
+      });
+      
+      return {
+        success: true,
+        message: 'Agent conversation history cleared',
+        response: response.data
+      };
     } catch (error) {
       console.error('Error deleting agent from iAgent:', error);
       throw new Error(`Failed to delete agent from iAgent: ${error.message}`);
