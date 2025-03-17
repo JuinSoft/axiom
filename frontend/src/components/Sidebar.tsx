@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { FiHome, FiGrid, FiShoppingBag, FiPlusCircle, FiPackage, FiMessageSquare, FiLayers, FiServer, FiCode } from 'react-icons/fi';
+import { FiHome, FiGrid, FiShoppingBag, FiPlusCircle, FiPackage, FiMessageSquare, FiLayers, FiServer, FiCode, FiBook, FiFileText } from 'react-icons/fi';
 import { useWalletStore } from '../store/walletStore';
 import WalletConnect from './WalletConnect';
 
@@ -19,6 +19,11 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
     { name: 'Deployment', icon: FiServer, path: '/deployment' },
     { name: 'Create Agent', icon: FiPlusCircle, path: '/create', requiresAuth: true },
     { name: 'My Agents', icon: FiPackage, path: '/my-agents', requiresAuth: true },
+  ];
+
+  const docItems = [
+    { name: 'Developer Guide', icon: FiBook, path: '/developer-guide' },
+    { name: 'API Reference', icon: FiFileText, path: '/api-reference' },
   ];
 
   // Group items by category
@@ -156,6 +161,56 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
               })}
             </div>
           )}
+
+          {/* Documentation */}
+          <div className="mb-6">
+            {isOpen && (
+              <p className="px-6 text-xs font-bold uppercase text-gray-500 dark:text-dark-muted mb-3">
+                DOCUMENTATION
+              </p>
+            )}
+            {docItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              const Icon = item.icon;
+              
+              return (
+                <div key={item.name} className="mb-1">
+                  <Link
+                    to={item.path}
+                    className="no-underline"
+                  >
+                    <div
+                      className={`flex items-center py-3 px-4 ${
+                        isOpen ? 'mx-3' : 'mx-auto'
+                      } rounded-lg cursor-pointer transition-all duration-200 ${
+                        isActive
+                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                          : 'bg-transparent text-gray-600 dark:text-dark-text hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400'
+                      }`}
+                    >
+                      <div 
+                        className={`${
+                          isOpen ? 'mr-4' : ''
+                        } ${
+                          isActive ? 'text-blue-500 dark:text-blue-400' : ''
+                        } w-6 h-6 flex items-center justify-center`}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      {isOpen && (
+                        <span className={`text-base ${isActive ? 'font-medium' : 'font-normal'}`}>
+                          {item.name}
+                        </span>
+                      )}
+                      {isActive && isOpen && (
+                        <div className="absolute right-0 w-1 h-8 rounded-l bg-blue-500 dark:bg-blue-400"></div>
+                      )}
+                    </div>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Connect Wallet Section */}

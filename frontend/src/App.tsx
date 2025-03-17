@@ -12,6 +12,8 @@ import HomePage from './pages/HomePage';
 import DesignStudioPage from './pages/DesignStudioPage';
 import DeploymentPage from './pages/DeploymentPage';
 import NotFoundPage from './pages/NotFoundPage';
+import DeveloperGuidePage from './pages/DeveloperGuidePage';
+import ApiReferencePage from './pages/ApiReferencePage';
 import { useWalletStore } from './store/walletStore';
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
               <Route path="/marketplace/:id" element={<AgentDetails />} />
               <Route path="/design-studio" element={<DesignStudioPage />} />
               <Route path="/deployment" element={<DeploymentPage />} />
+              <Route path="/developer-guide" element={<DeveloperGuidePage />} />
+              <Route path="/api-reference" element={<ApiReferencePage />} />
               <Route 
                 path="/create" 
                 element={isConnected ? <CreateAgent /> : <DashboardPage />} 

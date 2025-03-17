@@ -49,35 +49,35 @@ npm run dev
 
 ## Documentation
 
+The platform includes comprehensive documentation available both in-app and in the docs directory:
+
 ### User Guide
 The platform includes comprehensive documentation for users:
 
-- **Getting Started**: [docs/user-guide/getting-started.md](docs/user-guide/getting-started.md)
-  ```
-  Axiom is a platform that allows you to create AI agents without writing code. 
-  These agents can perform various tasks on the Injective blockchain, such as 
-  monitoring markets, executing trades, and analyzing data.
-  ```
-
-- **Creating an Agent**: [docs/user-guide/creating-an-agent.md](docs/user-guide/creating-an-agent.md)
-- **Deploying an Agent**: [docs/user-guide/deploying-an-agent.md](docs/user-guide/deploying-an-agent.md)
-- **Using the Marketplace**: [docs/user-guide/using-the-marketplace.md](docs/user-guide/using-the-marketplace.md)
+- **Getting Started**: Access via the Axiom app navigation or see the user guides in `docs/user-guide/`
+- **Creating an Agent**: Available in the in-app guides
+- **Deploying an Agent**: Detailed in the platform interface
+- **Using the Marketplace**: Covered in the application
 
 ### Developer Guide
 For developers looking to extend or contribute to the platform:
 
+- **Access the Developer Guide**: Visit `/developer-guide` in the Axiom application
 - **Architecture Overview**: [docs/developer-guide/architecture.md](docs/developer-guide/architecture.md)
 - **Frontend Development**: [docs/developer-guide/frontend.md](docs/developer-guide/frontend.md)
 - **Backend Development**: [docs/developer-guide/backend.md](docs/developer-guide/backend.md)
-- **Smart Contract Integration**: [docs/developer-guide/smart-contracts.md](docs/developer-guide/smart-contracts.md)
+- **Smart Contract Integration**: [docs/developer-guide/smart-contract-integration.md](docs/developer-guide/smart-contract-integration.md)
 
 ### API Reference
-Detailed API documentation:
+Detailed API documentation is available both in-app and in the docs directory:
 
+- **Access the API Reference**: Visit `/api-reference` in the Axiom application
 - **Authentication**: [docs/api-reference/authentication.md](docs/api-reference/authentication.md)
 - **Agent API**: [docs/api-reference/agent-api.md](docs/api-reference/agent-api.md)
 - **Deployment API**: [docs/api-reference/deployment-api.md](docs/api-reference/deployment-api.md)
 - **Marketplace API**: [docs/api-reference/marketplace-api.md](docs/api-reference/marketplace-api.md)
+
+All documentation is also integrated directly into the application for a seamless experience.
 
 ## iAgent Integration
 This project integrates with iAgent, a Python-based AI agent framework developed by Injective Labs. iAgent allows you to create and manage AI agents that can interact with the Injective blockchain.
