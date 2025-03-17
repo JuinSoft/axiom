@@ -8,7 +8,6 @@ const {
   ChainGrpcAuthApi,
   ChainGrpcTxApi
 } = require('@injectivelabs/sdk-ts');
-const { TxGrpcClient } = require('@injectivelabs/sdk-ts/dist/client/chain/grpc');
 const { Network, getNetworkEndpoints } = require('@injectivelabs/networks');
 const { BigNumberInBase, DEFAULT_STD_FEE, BigNumberInWei } = require('@injectivelabs/utils');
 const axios = require('axios');
@@ -24,7 +23,6 @@ class InjectiveService {
       : Network.TestnetK8s;
     this.endpoints = getNetworkEndpoints(this.network);
     this.chainGrpcWasmApi = new ChainGrpcWasmApi(this.endpoints.grpc);
-    this.txClient = new TxGrpcClient(this.endpoints.grpc);
     
     // Initialize iAgent API client
     this.iAgentApiUrl = process.env.IAGENT_API_URL || 'https://iagent.injective.network/api';
@@ -34,9 +32,6 @@ class InjectiveService {
     
     // Initialize auth API client for account queries
     this.authClient = new ChainGrpcAuthApi(this.endpoints.grpc);
-    
-    // Initialize tx API client for transaction queries
-    this.txGrpcClient = new ChainGrpcTxApi(this.endpoints.grpc);
   }
 
   /**
@@ -404,119 +399,6 @@ class InjectiveService {
     } catch (error) {
       console.error('Error fetching wallet balance:', error);
       throw error;
-    }
-  }
-
-  /**
-   * Get transaction history
-   * @param {string} address - Wallet address
-   * @returns {Promise<Array>} - Transaction history
-   */
-  async getTransactions(address) {
-    try {
-      // Get sent transactions
-      const sentTxsResponse = await this.txGrpcClient.fetchTxs({
-        sender: address,
-        limit: 10
-      });
-      
-      // Get received transactions
-      const receivedTxsResponse = await this.txGrpcClient.fetchTxs({
-        receiver: address,
-        limit: 10
-      });
-      
-      // Combine and format transactions
-      const transactions = [];
-      
-      // Process sent transactions
-      if (sentTxsResponse && sentTxsResponse.txs) {
-        for (const tx of sentTxsResponse.txs) {
-          const formattedTx = this._formatTransaction(tx, 'send', address);
-          if (formattedTx) {
-            transactions.push(formattedTx);
-          }
-        }
-      }
-      
-      // Process received transactions
-      if (receivedTxsResponse && receivedTxsResponse.txs) {
-        for (const tx of receivedTxsResponse.txs) {
-          const formattedTx = this._formatTransaction(tx, 'receive', address);
-          if (formattedTx) {
-            transactions.push(formattedTx);
-          }
-        }
-      }
-      
-      // Sort transactions by timestamp (newest first)
-      transactions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-      
-      return transactions;
-    } catch (error) {
-      console.error('Error fetching transaction history:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Format a transaction
-   * @private
-   * @param {Object} tx - Transaction object
-   * @param {string} defaultType - Default transaction type
-   * @param {string} address - Wallet address
-   * @returns {Object} - Formatted transaction
-   */
-  _formatTransaction(tx, defaultType, address) {
-    try {
-      // Extract basic transaction info
-      const hash = tx.txHash;
-      const timestamp = new Date(tx.timestamp).toISOString();
-      const fee = tx.fee ? new BigNumberInWei(tx.fee.amount[0].amount).toBase().toNumber() : 0;
-      const status = tx.code === 0 ? 'completed' : 'failed';
-      
-      // Determine transaction type and amount
-      let type = defaultType;
-      let amount = 0;
-      let from = '';
-      let to = '';
-      
-      // Check if it's a contract interaction
-      if (tx.messages && tx.messages.length > 0) {
-        const msg = tx.messages[0];
-        
-        if (msg['@type'].includes('MsgExecuteContract')) {
-          type = 'contract';
-          from = msg.sender;
-          to = msg.contract;
-          
-          // Try to extract amount from contract execution
-          if (msg.funds && msg.funds.length > 0) {
-            amount = new BigNumberInWei(msg.funds[0].amount).toBase().toNumber();
-          }
-        } else if (msg['@type'].includes('MsgSend')) {
-          from = msg.fromAddress;
-          to = msg.toAddress;
-          
-          if (msg.amount && msg.amount.length > 0) {
-            amount = new BigNumberInWei(msg.amount[0].amount).toBase().toNumber();
-          }
-        }
-      }
-      
-      return {
-        hash,
-        type,
-        amount,
-        fee,
-        status,
-        timestamp,
-        from,
-        to
-      };
-    } catch (error) {
-      console.error('Error formatting transaction:', error);
-      return null;
     }
   }
 }

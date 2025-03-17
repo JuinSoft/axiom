@@ -10,6 +10,13 @@ const walletController = require('../controllers/walletController');
 router.get('/balance', walletController.getBalance);
 
 /**
+ * @route GET /api/wallet/balance/:address
+ * @desc Get wallet balance by address
+ * @access Public
+ */
+router.get('/balance/:address', walletController.getBalanceByAddress);
+
+/**
  * @route GET /api/wallet/transactions
  * @desc Get transaction history
  * @access Public

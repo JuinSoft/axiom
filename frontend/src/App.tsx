@@ -1,72 +1,70 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import Dashboard from './pages/Dashboard';
-import Marketplace from './pages/Marketplace';
+import DashboardPage from './pages/DashboardPage';
+import MarketplacePage from './pages/MarketplacePage';
 import AgentDetails from './pages/AgentDetails';
 import CreateAgent from './pages/CreateAgent';
 import MyAgents from './pages/MyAgents';
 import Chat from './pages/Chat';
+import HomePage from './pages/HomePage';
+import DesignStudioPage from './pages/DesignStudioPage';
+import DeploymentPage from './pages/DeploymentPage';
+import NotFoundPage from './pages/NotFoundPage';
 import { useWalletStore } from './store/walletStore';
-
-// Define the theme
-const theme = extendTheme({
-  colors: {
-    brand: {
-      50: '#e6f7ff',
-      100: '#b3e0ff',
-      200: '#80caff',
-      300: '#4db3ff',
-      400: '#1a9dff',
-      500: '#0080ff',
-      600: '#0066cc',
-      700: '#004d99',
-      800: '#003366',
-      900: '#001a33',
-    },
-  },
-});
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { isConnected } = useWalletStore();
+
+  // Initialize dark mode based on user preference or system preference
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || 
+      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   return (
-    <ChakraProvider theme={theme}>
-      <Router>
-        <div className="flex h-screen bg-gray-100">
-          <Sidebar isOpen={sidebarOpen} />
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <Navbar onMenuClick={toggleSidebar} />
-            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/marketplace" element={<Marketplace />} />
-                <Route path="/marketplace/:id" element={<AgentDetails />} />
-                <Route 
-                  path="/create" 
-                  element={isConnected ? <CreateAgent /> : <Dashboard />} 
-                />
-                <Route 
-                  path="/my-agents" 
-                  element={isConnected ? <MyAgents /> : <Dashboard />} 
-                />
-                <Route 
-                  path="/chat/:agentId" 
-                  element={isConnected ? <Chat /> : <Dashboard />} 
-                />
-              </Routes>
-            </main>
+    <div className="flex h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-dark-text">
+      <Sidebar isOpen={sidebarOpen} />
+      <div className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${sidebarOpen ? 'ml-60' : 'ml-20'}`}>
+        <Navbar onMenuClick={toggleSidebar} />
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-dark-bg p-6">
+          <div className="container mx-auto">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/marketplace" element={<MarketplacePage />} />
+              <Route path="/marketplace/:id" element={<AgentDetails />} />
+              <Route path="/design-studio" element={<DesignStudioPage />} />
+              <Route path="/deployment" element={<DeploymentPage />} />
+              <Route 
+                path="/create" 
+                element={isConnected ? <CreateAgent /> : <DashboardPage />} 
+              />
+              <Route 
+                path="/my-agents" 
+                element={isConnected ? <MyAgents /> : <DashboardPage />} 
+              />
+              <Route 
+                path="/chat/:agentId" 
+                element={isConnected ? <Chat /> : <DashboardPage />} 
+              />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
           </div>
-        </div>
-      </Router>
-    </ChakraProvider>
+        </main>
+      </div>
+    </div>
   );
 }
 

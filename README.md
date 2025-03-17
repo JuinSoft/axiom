@@ -3,6 +3,11 @@
 ## Overview
 Axiom is a no-code platform that enables users to design, deploy, and manage AI agents on the Injective blockchain using iAgent. The platform features a user-friendly interface for defining agent behaviors, AI-assisted design, and a marketplace for sharing and selling agent designs, ensuring security and compliance.
 
+## Architecture Diagram
+
+![Architecture Diagram](frontend/src/assets/arch.svg)
+
+
 ## Key Features
 - **User-Friendly Interface**: Drag-and-drop tools and natural language input for describing agent behaviors
 - **AI-Assisted Design**: Generate agent configurations from user descriptions with AI assistance
@@ -14,6 +19,7 @@ Axiom is a no-code platform that enables users to design, deploy, and manage AI 
 - `backend/`: Node.js server for handling AI processing and blockchain interactions
 - `contracts/`: CosmWasm smart contracts for the agent marketplace
 - `docs/`: Documentation for the platform
+- `iAgent/`: Python-based AI agent framework for Injective
 
 ## Getting Started
 1. Clone this repository
@@ -41,15 +47,79 @@ cd ../backend
 npm run dev
 ```
 
+## Documentation
+
+### User Guide
+The platform includes comprehensive documentation for users:
+
+- **Getting Started**: [docs/user-guide/getting-started.md](docs/user-guide/getting-started.md)
+  ```
+  Axiom is a platform that allows you to create AI agents without writing code. 
+  These agents can perform various tasks on the Injective blockchain, such as 
+  monitoring markets, executing trades, and analyzing data.
+  ```
+
+- **Creating an Agent**: [docs/user-guide/creating-an-agent.md](docs/user-guide/creating-an-agent.md)
+- **Deploying an Agent**: [docs/user-guide/deploying-an-agent.md](docs/user-guide/deploying-an-agent.md)
+- **Using the Marketplace**: [docs/user-guide/using-the-marketplace.md](docs/user-guide/using-the-marketplace.md)
+
+### Developer Guide
+For developers looking to extend or contribute to the platform:
+
+- **Architecture Overview**: [docs/developer-guide/architecture.md](docs/developer-guide/architecture.md)
+- **Frontend Development**: [docs/developer-guide/frontend.md](docs/developer-guide/frontend.md)
+- **Backend Development**: [docs/developer-guide/backend.md](docs/developer-guide/backend.md)
+- **Smart Contract Integration**: [docs/developer-guide/smart-contracts.md](docs/developer-guide/smart-contracts.md)
+
+### API Reference
+Detailed API documentation:
+
+- **Authentication**: [docs/api-reference/authentication.md](docs/api-reference/authentication.md)
+- **Agent API**: [docs/api-reference/agent-api.md](docs/api-reference/agent-api.md)
+- **Deployment API**: [docs/api-reference/deployment-api.md](docs/api-reference/deployment-api.md)
+- **Marketplace API**: [docs/api-reference/marketplace-api.md](docs/api-reference/marketplace-api.md)
+
 ## iAgent Integration
-This project integrates with iAgent, a Python-based AI agent framework developed by Injective Labs. iAgent allows you to create and manage AI agents that can interact with the Injective blockchain. For more information on setting up and using iAgent with this project, see the [iAgent Setup Guide](docs/iagent-setup.md).
+This project integrates with iAgent, a Python-based AI agent framework developed by Injective Labs. iAgent allows you to create and manage AI agents that can interact with the Injective blockchain.
+
+### Setting up iAgent
+```bash
+# Clone the iAgent repository
+git clone https://github.com/InjectiveLabs/iAgent.git
+cd iAgent
+
+# Install the required Python packages
+pip install -r requirements.txt
+
+# Set up your OpenAI API key
+export OPENAI_API_KEY="your_openai_api_key_here"
+
+# Start the iAgent server
+python agent_server.py --port 5000
+```
+
+For more detailed instructions, see the [iAgent Setup Guide](docs/iagent-setup.md).
 
 ## Technologies Used
-- **Frontend**: React, TypeScript, Tailwind CSS
+- **Frontend**: React, TypeScript, Chakra UI, Tailwind CSS
 - **Backend**: Node.js, Express
 - **Blockchain**: Injective, CosmWasm
 - **AI**: OpenAI API for agent configuration generation
 - **iAgent**: Python-based AI agent framework for Injective
+
+## Troubleshooting
+If you encounter issues:
+
+1. Make sure all dependencies are installed
+2. Check that environment variables are set correctly
+3. Verify that the iAgent server is running (if using iAgent features)
+4. Check the console for error messages
+
+## Contributing
+We welcome contributions to the Axiom platform! Please see our [Contributing Guide](CONTRIBUTING.md) for more information.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Hackathon Information
 This project is being developed for the [Injective AI Hackathon](https://dorahacks.io/hackathon/injective-ai/). 

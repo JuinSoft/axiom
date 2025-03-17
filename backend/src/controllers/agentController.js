@@ -368,4 +368,110 @@ exports.deployAgent = async (req, res) => {
     console.error('Error deploying agent:', error);
     res.status(500).json({ error: 'Failed to deploy agent' });
   }
+};
+
+/**
+ * Get agent templates
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+exports.getAgentTemplates = async (req, res) => {
+  try {
+    // In a real app, these would come from a database
+    // For now, we'll return some mock data
+    const templates = [
+      {
+        id: 'template-1',
+        name: 'Market Monitor',
+        description: 'Monitor cryptocurrency markets and send notifications on price movements.',
+        category: 'finance',
+        config: {
+          capabilities: {
+            market_data: true,
+            price_alerts: true,
+            technical_analysis: true
+          },
+          parameters: {
+            alert_threshold: 5,
+            trading_pairs: ['BTC/USD', 'ETH/USD', 'INJ/USD'],
+            update_interval: 5
+          }
+        }
+      },
+      {
+        id: 'template-2',
+        name: 'Trading Assistant',
+        description: 'Analyze market data and suggest trading strategies.',
+        category: 'trading',
+        config: {
+          capabilities: {
+            market_data: true,
+            technical_analysis: true,
+            web_search: true
+          },
+          parameters: {
+            risk_level: 'medium',
+            strategy: 'momentum',
+            timeframe: '1h'
+          }
+        }
+      },
+      {
+        id: 'template-3',
+        name: 'News Aggregator',
+        description: 'Gather and summarize cryptocurrency news from various sources.',
+        category: 'social',
+        config: {
+          capabilities: {
+            web_search: true,
+            natural_language_processing: true
+          },
+          parameters: {
+            sources: ['CoinDesk', 'CryptoSlate', 'Decrypt'],
+            update_interval: 60,
+            summarization_level: 'medium'
+          }
+        }
+      },
+      {
+        id: 'template-4',
+        name: 'Portfolio Tracker',
+        description: 'Track and analyze your portfolio performance.',
+        category: 'analytics',
+        config: {
+          capabilities: {
+            market_data: true,
+            data_analysis: true
+          },
+          parameters: {
+            portfolio_assets: ['BTC', 'ETH', 'INJ', 'SOL', 'USDT'],
+            update_interval: 60,
+            calculate_metrics: true
+          }
+        }
+      },
+      {
+        id: 'template-5',
+        name: 'DeFi Yield Optimizer',
+        description: 'Monitor and optimize DeFi yield farming strategies.',
+        category: 'finance',
+        config: {
+          capabilities: {
+            market_data: true,
+            data_analysis: true
+          },
+          parameters: {
+            protocols: ['Compound', 'Aave', 'Astroport'],
+            risk_level: 'medium',
+            gas_price_threshold: 'medium'
+          }
+        }
+      }
+    ];
+    
+    res.json(templates);
+  } catch (error) {
+    console.error('Error fetching agent templates:', error);
+    res.status(500).json({ error: 'Failed to fetch agent templates' });
+  }
 }; 
