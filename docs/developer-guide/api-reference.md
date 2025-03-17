@@ -50,7 +50,7 @@ Response:
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "expires_at": "2023-12-31T23:59:59Z"
+  "expires_at": "2025-12-31T23:59:59Z"
 }
 ```
 
@@ -82,16 +82,16 @@ Response:
       "name": "Market Monitor",
       "description": "Monitors BTC/USD price movements",
       "status": "active",
-      "created_at": "2023-01-15T10:30:00Z",
-      "updated_at": "2023-01-20T14:45:00Z"
+      "created_at": "2025-01-15T10:30:00Z",
+      "updated_at": "2025-01-20T14:45:00Z"
     },
     {
       "id": "agent_789012",
       "name": "Trading Bot",
       "description": "Executes trades based on RSI",
       "status": "paused",
-      "created_at": "2023-02-10T08:15:00Z",
-      "updated_at": "2023-02-15T11:20:00Z"
+      "created_at": "2025-02-10T08:15:00Z",
+      "updated_at": "2025-02-15T11:20:00Z"
     }
   ],
   "pagination": {
@@ -142,9 +142,9 @@ Response:
       }
     }
   ],
-  "created_at": "2023-01-15T10:30:00Z",
-  "updated_at": "2023-01-20T14:45:00Z",
-  "last_active": "2023-03-01T09:12:34Z",
+  "created_at": "2025-01-15T10:30:00Z",
+  "updated_at": "2025-01-20T14:45:00Z",
+  "last_active": "2025-03-01T09:12:34Z",
   "metrics": {
     "actions_taken": 156,
     "success_rate": 98.7,
@@ -208,8 +208,8 @@ Response:
   "description": "Executes trades based on moving averages",
   "status": "draft",
   "capabilities": [...],
-  "created_at": "2023-03-10T15:30:00Z",
-  "updated_at": "2023-03-10T15:30:00Z"
+  "created_at": "2025-03-10T15:30:00Z",
+  "updated_at": "2025-03-10T15:30:00Z"
 }
 ```
 
@@ -240,8 +240,8 @@ Response:
   "description": "Executes trades based on improved moving averages",
   "status": "draft",
   "capabilities": [...],
-  "created_at": "2023-03-10T15:30:00Z",
-  "updated_at": "2023-03-15T09:45:00Z"
+  "created_at": "2025-03-10T15:30:00Z",
+  "updated_at": "2025-03-15T09:45:00Z"
 }
 ```
 
@@ -300,7 +300,7 @@ Response:
     "deployment": "0.5 INJ",
     "monthly_operation": "2.0 INJ"
   },
-  "created_at": "2023-03-20T11:30:00Z"
+  "created_at": "2025-03-20T11:30:00Z"
 }
 ```
 
@@ -326,7 +326,7 @@ Response:
 {
   "id": "agent_345678",
   "status": "active",
-  "updated_at": "2023-03-25T14:20:00Z"
+  "updated_at": "2025-03-25T14:20:00Z"
 }
 ```
 
@@ -367,7 +367,7 @@ Response:
         "price": 1800.0,
         "transaction_id": "0x1234..."
       },
-      "timestamp": "2023-03-26T10:15:30Z"
+      "timestamp": "2025-03-26T10:15:30Z"
     },
     {
       "id": "activity_123457",
@@ -378,7 +378,7 @@ Response:
         "previous_status": "paused",
         "new_status": "active"
       },
-      "timestamp": "2023-03-25T14:20:00Z"
+      "timestamp": "2025-03-25T14:20:00Z"
     }
   ],
   "pagination": {
@@ -426,7 +426,7 @@ Response:
       "currency": "INJ",
       "rating": 4.8,
       "reviews_count": 24,
-      "created_at": "2023-02-10T08:15:00Z"
+      "created_at": "2025-02-10T08:15:00Z"
     },
     {
       "id": "market_agent_789012",
@@ -437,7 +437,7 @@ Response:
       "currency": "INJ",
       "rating": 4.2,
       "reviews_count": 15,
-      "created_at": "2023-01-20T14:45:00Z"
+      "created_at": "2025-01-20T14:45:00Z"
     }
   ],
   "pagination": {
@@ -484,8 +484,8 @@ Response:
       "win_rate": "68.5%"
     }
   },
-  "created_at": "2023-02-10T08:15:00Z",
-  "updated_at": "2023-02-15T11:20:00Z"
+  "created_at": "2025-02-10T08:15:00Z",
+  "updated_at": "2025-02-15T11:20:00Z"
 }
 ```
 
@@ -507,7 +507,7 @@ Response:
   "currency": "INJ",
   "transaction_id": "0x5678...",
   "status": "completed",
-  "purchased_at": "2023-03-30T09:45:00Z"
+  "purchased_at": "2025-03-30T09:45:00Z"
 }
 ```
 
@@ -572,7 +572,7 @@ Response:
       "token": "INJ",
       "status": "confirmed",
       "hash": "0x1234...",
-      "timestamp": "2023-03-20T11:30:00Z"
+      "timestamp": "2025-03-20T11:30:00Z"
     },
     {
       "id": "tx_789012",
@@ -581,7 +581,7 @@ Response:
       "token": "INJ",
       "status": "confirmed",
       "hash": "0x5678...",
-      "timestamp": "2023-03-30T09:45:00Z"
+      "timestamp": "2025-03-30T09:45:00Z"
     }
   ],
   "pagination": {
@@ -661,7 +661,7 @@ Example webhook payload:
 ```json
 {
   "event": "agent.action",
-  "timestamp": "2023-04-01T10:15:30Z",
+  "timestamp": "2025-04-01T10:15:30Z",
   "data": {
     "agent_id": "agent_345678",
     "action": {

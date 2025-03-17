@@ -25,7 +25,7 @@ GET /agents
       "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
       "category": "finance",
       "status": "active",
-      "created_at": "2023-06-15T10:00:00Z"
+      "created_at": "2025-06-15T10:00:00Z"
     },
     {
       "id": "agent-456",
@@ -34,7 +34,7 @@ GET /agents
       "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
       "category": "analytics",
       "status": "inactive",
-      "created_at": "2023-07-20T14:30:00Z"
+      "created_at": "2025-07-20T14:30:00Z"
     }
   ],
   "pagination": {
@@ -61,7 +61,7 @@ GET /agents/{agent_id}
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
   "category": "finance",
   "status": "active",
-  "created_at": "2023-06-15T10:00:00Z",
+  "created_at": "2025-06-15T10:00:00Z",
   "configuration": {
     "capabilities": {
       "market_data": true,
@@ -108,7 +108,7 @@ POST /agents
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
   "category": "trading",
   "status": "active",
-  "created_at": "2023-08-25T09:15:00Z",
+  "created_at": "2025-08-25T09:15:00Z",
   "configuration": {
     "capabilities": {
       "market_data": true,
@@ -156,7 +156,7 @@ PUT /agents/{agent_id}
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
   "category": "trading",
   "status": "active",
-  "updated_at": "2023-08-26T10:20:00Z",
+  "updated_at": "2025-08-26T10:20:00Z",
   "configuration": {
     "capabilities": {
       "market_data": true,

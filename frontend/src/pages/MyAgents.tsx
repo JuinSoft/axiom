@@ -17,8 +17,8 @@ const MyAgents: React.FC = () => {
           description: 'Monitors cryptocurrency markets and sends alerts based on price movements.',
           category: 'finance',
           status: 'active',
-          created_at: '2023-05-15T10:30:00Z',
-          last_active: '2023-08-10T14:22:00Z'
+          created_at: '2025-05-15T10:30:00Z',
+          last_active: '2025-08-10T14:22:00Z'
         },
         {
           id: 'agent-2',
@@ -26,8 +26,8 @@ const MyAgents: React.FC = () => {
           description: 'Helps with trading decisions by analyzing market data and trends.',
           category: 'trading',
           status: 'inactive',
-          created_at: '2023-06-20T08:15:00Z',
-          last_active: '2023-07-30T11:45:00Z'
+          created_at: '2025-06-20T08:15:00Z',
+          last_active: '2025-07-30T11:45:00Z'
         },
         {
           id: 'agent-3',
@@ -35,8 +35,8 @@ const MyAgents: React.FC = () => {
           description: 'Tracks your portfolio performance and provides insights.',
           category: 'analytics',
           status: 'active',
-          created_at: '2023-07-05T16:40:00Z',
-          last_active: '2023-08-09T22:10:00Z'
+          created_at: '2025-07-05T16:40:00Z',
+          last_active: '2025-08-09T22:10:00Z'
         }
       ]);
       setLoading(false);

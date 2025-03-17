@@ -112,7 +112,7 @@ exports.getTransactions = async (req, res) => {
           amount: 10.5,
           fee: 0.002,
           status: 'completed',
-          timestamp: '2023-08-01T10:30:00Z',
+          timestamp: '2025-08-01T10:30:00Z',
           from: address,
           to: 'inj1xyxyxyxyxyxyxyxyxyxyxyxyxyxyxyxyxyxy'
         },
@@ -122,7 +122,7 @@ exports.getTransactions = async (req, res) => {
           amount: 25.75,
           fee: 0.002,
           status: 'completed',
-          timestamp: '2023-08-02T14:45:00Z',
+          timestamp: '2025-08-02T14:45:00Z',
           from: 'inj1ababababababababababababababababababab',
           to: address
         },
@@ -132,7 +132,7 @@ exports.getTransactions = async (req, res) => {
           amount: 5.25,
           fee: 0.003,
           status: 'completed',
-          timestamp: '2023-08-03T09:20:00Z',
+          timestamp: '2025-08-03T09:20:00Z',
           from: address,
           to: 'inj1cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd'
         }

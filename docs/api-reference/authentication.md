@@ -40,7 +40,7 @@ POST /auth/login
 ```json
 {
   "token": "eyJhbGci...",
-  "expires_at": "2023-12-31T23:59:59Z"
+  "expires_at": "2025-12-31T23:59:59Z"
 }
 ```
 

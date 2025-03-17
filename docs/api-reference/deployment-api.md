@@ -25,7 +25,7 @@ POST /agents/{agent_id}/deploy
   "status": "pending",
   "transaction_hash": "0x1234567890abcdef",
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
-  "timestamp": "2023-08-25T16:30:00Z",
+  "timestamp": "2025-08-25T16:30:00Z",
   "network": "mainnet"
 }
 ```
@@ -46,8 +46,8 @@ GET /agents/{agent_id}/deployments/{deployment_id}
   "transaction_hash": "0x1234567890abcdef",
   "contract_address": "inj1qwexyz098765",
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
-  "timestamp": "2023-08-25T16:30:00Z",
-  "completed_at": "2023-08-25T16:32:30Z",
+  "timestamp": "2025-08-25T16:30:00Z",
+  "completed_at": "2025-08-25T16:32:30Z",
   "network": "mainnet",
   "gas_used": 250000,
   "error": null # present only if status is "failed"
@@ -76,8 +76,8 @@ GET /agents/{agent_id}/deployments
       "transaction_hash": "0x1234567890abcdef",
       "contract_address": "inj1qwexyz098765",
       "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
-      "timestamp": "2023-08-25T16:30:00Z",
-      "completed_at": "2023-08-25T16:32:30Z",
+      "timestamp": "2025-08-25T16:30:00Z",
+      "completed_at": "2025-08-25T16:32:30Z",
       "network": "mainnet"
     },
     {
@@ -86,8 +86,8 @@ GET /agents/{agent_id}/deployments
       "status": "failed",
       "transaction_hash": "0x0987654321fedcba",
       "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
-      "timestamp": "2023-08-24T14:20:00Z",
-      "completed_at": "2023-08-24T14:21:15Z",
+      "timestamp": "2025-08-24T14:20:00Z",
+      "completed_at": "2025-08-24T14:21:15Z",
       "network": "testnet",
       "error": "Insufficient gas"
     }
@@ -141,7 +141,7 @@ POST /agents/{agent_id}/generate-config
   "estimated_gas": 250000,
   "estimated_cost": "0.25",
   "currency": "INJ",
-  "timestamp": "2023-08-25T16:35:00Z"
+  "timestamp": "2025-08-25T16:35:00Z"
 }
 ```
 
@@ -166,7 +166,7 @@ PUT /agents/{agent_id}/deployments/{deployment_id}
   "transaction_hash": "0x567890abcdef1234",
   "contract_address": "inj1qwexyz098765",
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
-  "timestamp": "2023-08-25T16:40:00Z",
+  "timestamp": "2025-08-25T16:40:00Z",
   "network": "mainnet"
 }
 ``` 

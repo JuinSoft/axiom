@@ -108,7 +108,7 @@ const ApiReferencePage: React.FC = () => {
             <code>
 {`{
   "token": "eyJhbGci...",
-  "expires_at": "2023-12-31T23:59:59Z"
+  "expires_at": "2025-12-31T23:59:59Z"
 }`}
             </code>
           </pre>
@@ -149,7 +149,7 @@ const ApiReferencePage: React.FC = () => {
       "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
       "category": "finance",
       "status": "active",
-      "created_at": "2023-06-15T10:00:00Z"
+      "created_at": "2025-06-15T10:00:00Z"
     },
     {
       "id": "agent-456",
@@ -158,7 +158,7 @@ const ApiReferencePage: React.FC = () => {
       "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
       "category": "analytics",
       "status": "inactive",
-      "created_at": "2023-07-20T14:30:00Z"
+      "created_at": "2025-07-20T14:30:00Z"
     }
   ],
   "pagination": {
@@ -188,7 +188,7 @@ const ApiReferencePage: React.FC = () => {
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
   "category": "finance",
   "status": "active",
-  "created_at": "2023-06-15T10:00:00Z",
+  "created_at": "2025-06-15T10:00:00Z",
   "configuration": {
     "capabilities": {
       "market_data": true,
@@ -238,7 +238,7 @@ const ApiReferencePage: React.FC = () => {
   "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
   "category": "trading",
   "status": "active",
-  "created_at": "2023-08-25T09:15:00Z",
+  "created_at": "2025-08-25T09:15:00Z",
   "configuration": {
     "capabilities": {
       "market_data": true,
@@ -296,7 +296,7 @@ const ApiReferencePage: React.FC = () => {
       "seller": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
       "rating": 4.8,
       "downloads": 125,
-      "created_at": "2023-06-20T11:30:00Z"
+      "created_at": "2025-06-20T11:30:00Z"
     },
     {
       "id": "listing-456",
@@ -309,7 +309,7 @@ const ApiReferencePage: React.FC = () => {
       "seller": "inj1f6lmn9hcknfv2wkzh8xd5ws4wkk02npyxpnsmr",
       "rating": 4.6,
       "downloads": 87,
-      "created_at": "2023-07-15T09:45:00Z"
+      "created_at": "2025-07-15T09:45:00Z"
     }
   ],
   "pagination": {
@@ -343,7 +343,7 @@ const ApiReferencePage: React.FC = () => {
   "seller": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
   "rating": 4.8,
   "downloads": 125,
-  "created_at": "2023-06-20T11:30:00Z",
+  "created_at": "2025-06-20T11:30:00Z",
   "capabilities": [
     "market_data",
     "price_alerts",
@@ -354,7 +354,7 @@ const ApiReferencePage: React.FC = () => {
       "user": "inj1xyz789",
       "rating": 5,
       "comment": "Excellent agent, very accurate alerts!",
-      "date": "2023-07-10T15:20:00Z"
+      "date": "2025-07-10T15:20:00Z"
     }
   ]
 }`}
@@ -384,7 +384,7 @@ const ApiReferencePage: React.FC = () => {
   "seller": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
   "transaction_hash": "0x1234567890abcdef",
   "status": "completed",
-  "timestamp": "2023-08-25T14:30:00Z"
+  "timestamp": "2025-08-25T14:30:00Z"
 }`}
               </code>
             </pre>
@@ -421,7 +421,7 @@ const ApiReferencePage: React.FC = () => {
 {`{
   "response": "The current price of INJ is $15.42, up 2.3% in the last 24 hours.",
   "conversation_id": "conv-456",
-  "timestamp": "2023-08-25T14:35:00Z",
+  "timestamp": "2025-08-25T14:35:00Z",
   "metadata": {
     "data_sources": ["coingecko", "binance"],
     "confidence": 0.98
@@ -448,12 +448,12 @@ const ApiReferencePage: React.FC = () => {
     {
       "role": "user",
       "content": "What's the current price of INJ?",
-      "timestamp": "2023-08-25T14:30:00Z"
+      "timestamp": "2025-08-25T14:30:00Z"
     },
     {
       "role": "agent",
       "content": "The current price of INJ is $15.42, up 2.3% in the last 24 hours.",
-      "timestamp": "2023-08-25T14:30:05Z",
+      "timestamp": "2025-08-25T14:30:05Z",
       "metadata": {
         "data_sources": ["coingecko", "binance"],
         "confidence": 0.98
@@ -462,12 +462,12 @@ const ApiReferencePage: React.FC = () => {
     {
       "role": "user",
       "content": "What about BTC?",
-      "timestamp": "2023-08-25T14:31:00Z"
+      "timestamp": "2025-08-25T14:31:00Z"
     },
     {
       "role": "agent",
       "content": "Bitcoin (BTC) is currently trading at $26,483.21, down 1.2% over the last 24 hours.",
-      "timestamp": "2023-08-25T14:31:05Z",
+      "timestamp": "2025-08-25T14:31:05Z",
       "metadata": {
         "data_sources": ["coingecko", "binance"],
         "confidence": 0.99
@@ -524,7 +524,7 @@ const ApiReferencePage: React.FC = () => {
     "agent.deployed",
     "marketplace.purchase"
   ],
-  "created_at": "2023-08-25T15:00:00Z"
+  "created_at": "2025-08-25T15:00:00Z"
 }`}
             </code>
           </pre>
@@ -538,7 +538,7 @@ const ApiReferencePage: React.FC = () => {
 {`// Example webhook payload for agent.created event
 {
   "event": "agent.created",
-  "timestamp": "2023-08-25T15:05:00Z",
+  "timestamp": "2025-08-25T15:05:00Z",
   "data": {
     "agent_id": "agent-123",
     "name": "Market Oracle",
@@ -546,7 +546,7 @@ const ApiReferencePage: React.FC = () => {
     "owner": "inj1ady3s7whj340xc7l3xj8zl4gzyveupn4z7yy8f",
     "category": "finance",
     "status": "active",
-    "created_at": "2023-08-25T15:05:00Z"
+    "created_at": "2025-08-25T15:05:00Z"
   }
 }`}
             </code>

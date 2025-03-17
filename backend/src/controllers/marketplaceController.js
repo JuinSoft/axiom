@@ -504,7 +504,7 @@ exports.getAgentDetails = async (req, res) => {
         creator_address: 'inj1abc123def456',
         rating: 4.8,
         downloads: 1250,
-        created_at: '2023-05-15T10:30:00Z',
+        created_at: '2025-05-15T10:30:00Z',
         capabilities: [
           'market_data',
           'price_alerts',
@@ -515,13 +515,13 @@ exports.getAgentDetails = async (req, res) => {
             user: 'Trader123',
             rating: 5,
             comment: 'Excellent agent, saved me a lot of time!',
-            date: '2023-06-20T14:25:00Z'
+            date: '2025-06-20T14:25:00Z'
           },
           {
             user: 'CryptoFan',
             rating: 4,
             comment: 'Very useful for monitoring the market.',
-            date: '2023-07-05T09:15:00Z'
+            date: '2025-07-05T09:15:00Z'
           }
         ]
       };

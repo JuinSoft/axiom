@@ -45,8 +45,8 @@ exports.getAgents = async (req, res) => {
           description: 'Monitors cryptocurrency markets and sends alerts based on price movements.',
           category: 'finance',
           status: 'active',
-          created_at: '2023-05-15T10:30:00Z',
-          last_active: '2023-08-10T14:22:00Z'
+          created_at: '2025-05-15T10:30:00Z',
+          last_active: '2025-08-10T14:22:00Z'
         },
         {
           id: 'agent-2',
@@ -54,8 +54,8 @@ exports.getAgents = async (req, res) => {
           description: 'Helps with trading decisions by analyzing market data and trends.',
           category: 'trading',
           status: 'inactive',
-          created_at: '2023-06-20T08:15:00Z',
-          last_active: '2023-07-30T11:45:00Z'
+          created_at: '2025-06-20T08:15:00Z',
+          last_active: '2025-07-30T11:45:00Z'
         },
         {
           id: 'agent-3',
@@ -63,8 +63,8 @@ exports.getAgents = async (req, res) => {
           description: 'Tracks your portfolio performance and provides insights.',
           category: 'analytics',
           status: 'active',
-          created_at: '2023-07-05T16:40:00Z',
-          last_active: '2023-08-09T22:10:00Z'
+          created_at: '2025-07-05T16:40:00Z',
+          last_active: '2025-08-09T22:10:00Z'
         }
       ];
       
@@ -99,7 +99,7 @@ exports.getDeployments = async (req, res) => {
           agent_id: 'agent-1',
           agent_name: 'Market Monitor',
           status: 'running',
-          deployed_at: '2023-05-16T09:20:00Z',
+          deployed_at: '2025-05-16T09:20:00Z',
           resources: {
             cpu: '0.5',
             memory: '256Mi',
@@ -116,7 +116,7 @@ exports.getDeployments = async (req, res) => {
           agent_id: 'agent-3',
           agent_name: 'Portfolio Tracker',
           status: 'running',
-          deployed_at: '2023-07-06T10:15:00Z',
+          deployed_at: '2025-07-06T10:15:00Z',
           resources: {
             cpu: '0.3',
             memory: '128Mi',
@@ -141,7 +141,7 @@ exports.getDeployments = async (req, res) => {
           agent_id: 'agent-1',
           agent_name: 'Market Monitor',
           status: 'running',
-          deployed_at: '2023-05-16T09:20:00Z',
+          deployed_at: '2025-05-16T09:20:00Z',
           resources: {
             cpu: '0.5',
             memory: '256Mi',
@@ -158,7 +158,7 @@ exports.getDeployments = async (req, res) => {
           agent_id: 'agent-3',
           agent_name: 'Portfolio Tracker',
           status: 'running',
-          deployed_at: '2023-07-06T10:15:00Z',
+          deployed_at: '2025-07-06T10:15:00Z',
           resources: {
             cpu: '0.3',
             memory: '128Mi',
@@ -243,18 +243,18 @@ exports.getAnalytics = async (req, res) => {
         },
         chart_data: {
           requests: [
-            { date: '2023-07-10', value: 320 },
-            { date: '2023-07-17', value: 480 },
-            { date: '2023-07-24', value: 520 },
-            { date: '2023-07-31', value: 410 },
-            { date: '2023-08-07', value: 650 }
+            { date: '2025-07-10', value: 320 },
+            { date: '2025-07-17', value: 480 },
+            { date: '2025-07-24', value: 520 },
+            { date: '2025-07-31', value: 410 },
+            { date: '2025-08-07', value: 650 }
           ],
           revenue: [
-            { date: '2023-07-10', value: 15 },
-            { date: '2023-07-17', value: 22 },
-            { date: '2023-07-24', value: 19 },
-            { date: '2023-07-31', value: 25 },
-            { date: '2023-08-07', value: 30 }
+            { date: '2025-07-10', value: 15 },
+            { date: '2025-07-17', value: 22 },
+            { date: '2025-07-24', value: 19 },
+            { date: '2025-07-31', value: 25 },
+            { date: '2025-08-07', value: 30 }
           ]
         }
       };
@@ -292,18 +292,18 @@ exports.getAnalytics = async (req, res) => {
         },
         chart_data: {
           requests: [
-            { date: '2023-07-10', value: 320 },
-            { date: '2023-07-17', value: 480 },
-            { date: '2023-07-24', value: 520 },
-            { date: '2023-07-31', value: 410 },
-            { date: '2023-08-07', value: 650 }
+            { date: '2025-07-10', value: 320 },
+            { date: '2025-07-17', value: 480 },
+            { date: '2025-07-24', value: 520 },
+            { date: '2025-07-31', value: 410 },
+            { date: '2025-08-07', value: 650 }
           ],
           revenue: [
-            { date: '2023-07-10', value: 15 },
-            { date: '2023-07-17', value: 22 },
-            { date: '2023-07-24', value: 19 },
-            { date: '2023-07-31', value: 25 },
-            { date: '2023-08-07', value: 30 }
+            { date: '2025-07-10', value: 15 },
+            { date: '2025-07-17', value: 22 },
+            { date: '2025-07-24', value: 19 },
+            { date: '2025-07-31', value: 25 },
+            { date: '2025-08-07', value: 30 }
           ]
         }
       };
@@ -338,7 +338,7 @@ exports.getTransactions = async (req, res) => {
         agent_id: 'agent-1',
         agent_name: 'Market Monitor',
         amount: 50,
-        timestamp: '2023-05-15T10:30:00Z',
+        timestamp: '2025-05-15T10:30:00Z',
         transaction_hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
         status: 'completed'
       },
@@ -348,7 +348,7 @@ exports.getTransactions = async (req, res) => {
         agent_id: 'agent-4',
         agent_name: 'News Aggregator',
         amount: 35,
-        timestamp: '2023-06-22T14:45:00Z',
+        timestamp: '2025-06-22T14:45:00Z',
         transaction_hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
         status: 'completed'
       },
@@ -358,7 +358,7 @@ exports.getTransactions = async (req, res) => {
         agent_id: 'agent-1',
         agent_name: 'Market Monitor',
         amount: 5,
-        timestamp: '2023-05-16T09:20:00Z',
+        timestamp: '2025-05-16T09:20:00Z',
         transaction_hash: '0x7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456',
         status: 'completed'
       },
@@ -368,7 +368,7 @@ exports.getTransactions = async (req, res) => {
         agent_id: 'agent-3',
         agent_name: 'Portfolio Tracker',
         amount: 75,
-        timestamp: '2023-07-05T16:40:00Z',
+        timestamp: '2025-07-05T16:40:00Z',
         transaction_hash: '0xdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc',
         status: 'completed'
       },
@@ -378,7 +378,7 @@ exports.getTransactions = async (req, res) => {
         agent_id: 'agent-3',
         agent_name: 'Portfolio Tracker',
         amount: 5,
-        timestamp: '2023-07-06T10:15:00Z',
+        timestamp: '2025-07-06T10:15:00Z',
         transaction_hash: '0x567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234',
         status: 'completed'
       }
